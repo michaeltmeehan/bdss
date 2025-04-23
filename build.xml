@@ -1,0 +1,30 @@
+<project name="bdss" default="jar" basedir=".">
+    
+    <!-- Path to compiled class output -->
+    <property name="build" location="build"/>
+
+    <!-- Classpath: BEAST2 jars + bdmm -->
+    <path id="classpath">
+        <fileset dir="C:/BEAST/BEAST_v2.7.7/lib/packages" includes="*.jar"/>
+        <fileset dir="C:/Users/jc213439/BEAST/2.7/bdmm/lib" includes="*.jar"/>
+    </path>
+
+    <!-- Compile the Java sources -->
+    <target name="compile">
+        <mkdir dir="${build}"/>
+        <javac srcdir="src" destdir="${build}" classpathref="classpath" includeantruntime="false"/>
+    </target>
+
+    <!-- Package the compiled classes into a jar -->
+    <target name="jar" depends="compile">
+        <mkdir dir="dist"/>
+        <jar destfile="dist/bdss.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Built-By" value="Michael Meehan"/>
+                <attribute name="Implementation-Title" value="BirthDeathSuperSpreader"/>
+                <attribute name="Implementation-Version" value="1.0"/>
+            </manifest>
+        </jar>
+    </target>
+
+</project>
