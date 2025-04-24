@@ -1,0 +1,25 @@
+<itsabeastystatewerein version='2.0' sample='1000'>
+<statenode id='Tree.t'>(0:1.8708629155828946,1:1.8708629155828946)2:0.0</statenode>
+<statenode id='superspreader_fraction'>superspreader_fraction[1 1] (-Infinity,Infinity): 0.39464461918628974 </statenode>
+<statenode id='relative_transmissibility'>relative_transmissibility[1 1] (-Infinity,Infinity): 0.30861199296386127 </statenode>
+<statenode id='total_r0'>total_r0[1 1] (-Infinity,Infinity): 12.532070699177275 </statenode>
+<statenode id='becomeUninfectiousRate'>becomeUninfectiousRate[2 1] (-Infinity,Infinity): 0.15560447183235723 0.060599890411904216 </statenode>
+<statenode id='samplingProportion'>samplingProportion[2 1] (-Infinity,Infinity): 0.6247666890969364 0.5988065091570566 </statenode>
+<statenode id='frequencies'>frequencies[2 1] (-Infinity,Infinity): 0.6930382444850464 0.8632093880527801 </statenode>
+<statenode id='R0'>R0[2 1] (-Infinity,Infinity): 8.505616156916098 4.026454542261174 </statenode>
+<statenode id='R0AmongDemes'>R0AmongDemes[2 1] (-Infinity,Infinity): 13.04698013707029 2.6249351535714953 </statenode>
+<statenode id='migrationMatrix'>migrationMatrix[2 1] (-Infinity,Infinity): 0.0 0.0 </statenode>
+<statenode id='rho'>rho[2 1] (-Infinity,Infinity): 0.0 0.0 </statenode>
+</itsabeastystatewerein>
+<!--
+{"operators":[
+{"id":"scale_superspreader_fraction","p":0.75,"accept":53,"reject":46,"acceptFC":0,"rejectFC":0,"rejectIv":17,"rejectOp":0},
+{"id":"scale_relative_transmissibility","p":0.75,"accept":43,"reject":56,"acceptFC":0,"rejectFC":0,"rejectIv":33,"rejectOp":0},
+{"id":"scale_total_r0","p":0.75,"accept":30,"reject":81,"acceptFC":0,"rejectFC":0,"rejectIv":37,"rejectOp":0},
+{"id":"scale_becomeUninfectiousRate","p":0.75,"accept":29,"reject":70,"acceptFC":0,"rejectFC":0,"rejectIv":26,"rejectOp":0},
+{"id":"scale_samplingProportion","p":0.75,"accept":23,"reject":79,"acceptFC":0,"rejectFC":0,"rejectIv":38,"rejectOp":0},
+{"id":"scale_frequencies","p":0.75,"accept":27,"reject":83,"acceptFC":0,"rejectFC":0,"rejectIv":49,"rejectOp":0},
+{"id":"scale_rho","p":0.75,"accept":0,"reject":94,"acceptFC":0,"rejectFC":0,"rejectIv":94,"rejectOp":94},
+{"id":"treeScaler","p":0.5,"accept":35,"reject":252,"acceptFC":0,"rejectFC":0,"rejectIv":71,"rejectOp":0}
+]}
+-->

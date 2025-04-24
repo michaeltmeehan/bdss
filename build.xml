@@ -1,30 +1,44 @@
 <project name="bdss" default="jar" basedir=".">
     
+    <!-- Load user-defined paths -->
+    <property file="build.properties"/>
+
     <!-- Path to compiled class output -->
     <property name="build" location="build"/>
+    <property name="dist" location="dist"/>
+    <property name="lib.dir" location="lib"/>
 
     <!-- Classpath: BEAST2 jars + bdmm -->
     <path id="classpath">
-        <fileset dir="C:/BEAST/BEAST_v2.7.7/lib/packages" includes="*.jar"/>
-        <fileset dir="C:/Users/jc213439/BEAST/2.7/bdmm/lib" includes="*.jar"/>
+        <fileset dir="${lib.beast}" includes="*.jar"/>
+        <fileset dir="${lib.bdmm}" includes="*.jar"/>
     </path>
+	
+	<!-- Clean up all generated files -->
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete dir="${dist}"/>
+        <delete file="${lib.dir}/bdss.jar"/>
+    </target>
 
     <!-- Compile the Java sources -->
-    <target name="compile">
-        <mkdir dir="${build}"/>
-        <javac srcdir="src" destdir="${build}" classpathref="classpath" includeantruntime="false"/>
-    </target>
+    <target name="compile" depends="clean">
+		<mkdir dir="${build}"/>
+		<javac srcdir="src" destdir="${build}" classpathref="classpath" includeantruntime="false"/>
+	</target>
+
 
     <!-- Package the compiled classes into a jar -->
     <target name="jar" depends="compile">
-        <mkdir dir="dist"/>
-        <jar destfile="dist/bdss.jar" basedir="${build}">
+        <mkdir dir="${dist}"/>
+        <jar destfile="${dist}/bdss.jar" basedir="${build}">
             <manifest>
                 <attribute name="Built-By" value="Michael Meehan"/>
                 <attribute name="Implementation-Title" value="BirthDeathSuperSpreader"/>
                 <attribute name="Implementation-Version" value="1.0"/>
             </manifest>
         </jar>
+        <mkdir dir="${lib.dir}"/>
+        <copy file="${dist}/bdss.jar" tofile="${lib.dir}/bdss.jar" overwrite="true"/>
     </target>
-
 </project>
