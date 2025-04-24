@@ -71,7 +71,7 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
             double left = c * (r11 + r12) + (1.0 - c) * (r21 + r22);
             double right = r11 + r22;
 
-            System.out.printf("left %f%n", left);
+            /*System.out.printf("left %f%n", left);
             System.out.printf("right %f%n", right);
             System.out.printf("rtotal %f%n", r);
             System.out.printf("superspreader_fraction %f%n", c);
@@ -91,7 +91,7 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
 			for (double v : r0offvals) {
 			System.out.printf("%f ", v);
 			}
-			System.out.println();
+			System.out.println();*/
         } catch (Exception e) {
             System.err.println("BirthDeathSuperSpreader transform error: " + e.getMessage());
         }
