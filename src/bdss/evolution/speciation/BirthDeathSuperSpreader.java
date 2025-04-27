@@ -21,25 +21,30 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
 
     @Override
     public void initAndValidate() {
-		// !!! Apparently I can't overwrite inherited inputs - it breaks BEAUti (but not BEAST) //
-        // Initialize inherited fields that must not be null
-        /*R0 = new Input<>("R0", "The basic reproduction number", new RealParameter(new Double[]{0.0, 0.0}));
-        R0AmongDemes = new Input<>("R0AmongDemes", "Among-deme R0", new RealParameter(new Double[]{0.0, 0.0}));
-        migrationMatrix = new Input<>("migrationMatrix", "Migration matrix", new RealParameter(new Double[]{0.0, 0.0}));
 
         // Auto-generate empty tiptypes if missing
-        if (tiptypes.get() != null && (tiptypes.get().traitsInput.get() == null || tiptypes.get().traitsInput.get().trim().isEmpty())) {
-            StringBuilder sb = new StringBuilder();
-            TreeInterface tree = treeInput.get();
-            for (Node node : tree.getExternalNodes()) {
-                sb.append(node.getID()).append("=NOT_SET,");
+        if (tiptypes.get() != null) {
+            if (tiptypes.get().traitsInput.get() == null || tiptypes.get().traitsInput.get().trim().isEmpty()) {
+                if (treeInput.get() != null) {
+                    StringBuilder sb = new StringBuilder();
+                    for (Node node : treeInput.get().getExternalNodes()) {
+                        if (node.getID() != null) {
+                            sb.append(node.getID()).append("=0,"); // assign default type 0
+                        } else {
+                            System.err.println("Warning: Node without ID detected!");
+                        }
+                    }
+                    if (sb.length() > 0) {
+                        sb.setLength(sb.length() - 1); // remove trailing comma
+                    }
+                    tiptypes.get().traitsInput.setValue(sb.toString(), tiptypes.get());
+                    tiptypes.get().initAndValidate();
+                } else {
+                    System.err.println("Warning: Tree is null when setting tiptypes.");
+                }
             }
-            if (sb.length() > 0) {
-                sb.setLength(sb.length() - 1);
-            }
-            tiptypes.get().traitsInput.setValue(sb.toString(), tiptypes.get());
-            tiptypes.get().initAndValidate();
-        }*/
+        }
+        
 
         // Only transform if all required inputs are present
         if (superspreader_fraction.get() != null &&
