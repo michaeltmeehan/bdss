@@ -10,17 +10,24 @@ import beast.base.evolution.tree.Node;
 
 public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured {
 
-    public Input<RealParameter> relative_transmissibility =
-            new Input<>("relative_transmissibility", "Relative transmissibility", (RealParameter) null);
+    public Input<RealParameter> relativeTransmissibility =
+            new Input<>("relativeTransmissibility", "Relative transmissibility", (RealParameter) null);
 
-    public Input<RealParameter> total_r0 =
-            new Input<>("total_r0", "Total R0", (RealParameter) null);
+    public Input<RealParameter> totalR0 =
+            new Input<>("totalR0", "Total R0", (RealParameter) null);
 
-    public Input<RealParameter> superspreader_fraction =
-            new Input<>("superspreader_fraction", "Superspreader fraction", (RealParameter) null);
+    public Input<RealParameter> superspreaderFraction =
+            new Input<>("superspreaderFraction", "Superspreader fraction", (RealParameter) null);
 
     @Override
     public void initAndValidate() {
+
+        if (migrationMatrix.get() != null) {
+            for (int i = 0; i < migrationMatrix.get().getDimension(); i++) {
+                migrationMatrix.get().setValue(i, 0.0);
+            }
+        }
+        
 
         // Auto-generate empty tiptypes if missing
         if (tiptypes.get() != null) {
@@ -47,9 +54,9 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
         
 
         // Only transform if all required inputs are present
-        if (superspreader_fraction.get() != null &&
-            relative_transmissibility.get() != null &&
-            total_r0.get() != null) {
+        if (superspreaderFraction.get() != null &&
+            relativeTransmissibility.get() != null &&
+            totalR0.get() != null) {
             transform();
         }
 
@@ -58,9 +65,9 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
 
     private void transform() {
         try {
-            double c = superspreader_fraction.get().getValue();
-            double rho = relative_transmissibility.get().getValue();
-            double r = total_r0.get().getValue();
+            double c = superspreaderFraction.get().getValue();
+            double rho = relativeTransmissibility.get().getValue();
+            double r = totalR0.get().getValue();
 
             double denominator = 1.0 - (1.0 - rho) * (1.0 - c);
             double r11 = c * r / denominator;
@@ -79,8 +86,8 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
             /*System.out.printf("left %f%n", left);
             System.out.printf("right %f%n", right);
             System.out.printf("rtotal %f%n", r);
-            System.out.printf("superspreader_fraction %f%n", c);
-            System.out.printf("relative_transmissibility %f%n", rho);
+            System.out.printf("superspreaderFraction %f%n", c);
+            System.out.printf("relativeTransmissibility %f%n", rho);
             System.out.printf("r11 %f%n", r11);
             System.out.printf("r12 %f%n", r12);
             System.out.printf("r21 %f%n", r21);

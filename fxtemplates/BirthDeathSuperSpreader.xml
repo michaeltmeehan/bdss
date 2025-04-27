@@ -241,9 +241,9 @@
 				  <tiptypes spec="beast.base.evolution.tree.TraitSet" traitname="type" id="typeTraitSet.t:$(n)" value="">
                       <taxa idref="TaxonSet.$(n)"/>
 				  </tiptypes>
-				<superspreader_fraction spec="parameter.RealParameter" id="superspreader_fraction.t:$(n)" value="0.1" dimension="1" lower="0" upper="1"/>
-				<relative_transmissibility spec="parameter.RealParameter" id="relative_transmissibility.t:$(n)" value="0.1" dimension="1" lower="0" upper="1"/>
-				<total_r0 spec="parameter.RealParameter" id="total_r0.t:$(n)" value="0.1" dimension="1" lower="0"/>
+				<superspreaderFraction spec="parameter.RealParameter" id="superspreaderFraction.t:$(n)" value="0.1" dimension="1" lower="0" upper="1"/>
+				<relativeTransmissibility spec="parameter.RealParameter" id="relativeTransmissibility.t:$(n)" value="0.1" dimension="1" lower="0" upper="1"/>
+				<totalR0 spec="parameter.RealParameter" id="totalR0.t:$(n)" value="0.1" dimension="1" lower="0"/>
                 <migrationMatrix spec="beast.base.inference.parameter.RealParameter" id="rateMatrix.t:$(n)" value="0.0" dimension="2" lower="0" upper="100"/>
                 <frequencies spec="parameter.RealParameter" id="geo-frequencies.t:$(n)" value=".5 .5" lower="0." upper="1." dimension="2"/>
                 <R0 spec="parameter.RealParameter" id="R0.t:$(n)" lower="0" dimension="2" value="1.5"/>
@@ -279,7 +279,7 @@
 				</distr>	
 			</distribution>
 			
-			<distribution id="RPrior.t:$(n)" spec="beast.base.inference.distribution.Prior" x="@total_r0.t:$(n)">
+			<distribution id="RPrior.t:$(n)" spec="beast.base.inference.distribution.Prior" x="@totalR0.t:$(n)">
 				<distr spec='beast.base.inference.distribution.LogNormalDistributionModel' offset="0.0" meanInRealSpace="false">
 					<parameter name="M" value="0." estimate="false"/> 
 					<parameter name="S" value="1." estimate="false"/> 
@@ -294,11 +294,11 @@
 				</distr>	
 			</distribution>
 
-			<prior id='superspreader_fractionPrior.t:$(n)' x='@superspreader_fraction.t:$(n)'>
+			<prior id='superspreaderFractionPrior.t:$(n)' x='@superspreaderFraction.t:$(n)'>
                 <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1"/>
             </prior>
 			
-			<prior id='relative_transmissibilityPrior.t:$(n)' x='@relative_transmissibility.t:$(n)'>
+			<prior id='relativeTransmissibilityPrior.t:$(n)' x='@relativeTransmissibility.t:$(n)'>
                 <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1"/>
             </prior>
 
@@ -316,15 +316,15 @@
             <operator id='mutationRateScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@mutationRate.s:$(n)"/>
             <operator id='gammaShapeScaler.s:$(n)' spec='ScaleOperator' scaleFactor="0.5" weight="0.1" parameter="@gammaShape.s:$(n)"/>
 
-			<operator id="R0Scaler.t:$(n)" parameter="@total_r0.t:$(n)" scaleFactor="0.8" spec="ScaleOperator" weight="3" />
+			<operator id="R0Scaler.t:$(n)" parameter="@totalR0.t:$(n)" scaleFactor="0.8" spec="ScaleOperator" weight="3" />
 			<operator id="becomeUninfectiousRateScaler.t:$(n)" parameter="@becomeUninfectiousRate.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="1" scaleAll="true" optimise="false"/>
 			<operator id="samplingScaler.t:$(n)" parameter="@samplingProportion.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
-			<operator id="superspreader_fractionScaler.t:$(n)" parameter="@superspreader_fraction.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
-			<operator id="relative_transmissibilityScaler.t:$(n)" parameter="@relative_transmissibility.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
+			<operator id="superspreaderFractionScaler.t:$(n)" parameter="@superspreaderFraction.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
+			<operator id="relativeTransmissibilityScaler.t:$(n)" parameter="@relativeTransmissibility.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
 			<operator id="rhoScaler.t:$(n)" parameter="@rho.t:$(n)" scaleFactor="0.9" spec="ScaleOperator" weight="3.0" />
 
 			<operator id="updownBD.t:$(n)" scaleFactor="0.9" spec="UpDownOperator" weight="3.0">
-				<up idref="total_r0.t:$(n)"/>
+				<up idref="totalR0.t:$(n)"/>
 				<down idref="becomeUninfectiousRate.t:$(n)"/>
 			</operator>
 	
@@ -372,9 +372,9 @@
             <connect srcID='rateMatrix.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(rateMatrix.t:$(n)) and rateMatrix.t:$(n)/estimate=true'/>
             <connect srcID='geo-frequencies.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(geo-frequencies.t:$(n)) and geo-frequencies.t:$(n)/estimate=true'/>
             <connect srcID='rho.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(rho.t:$(n)) and rho.t:$(n)/estimate=true'/>
-			<connect srcID='superspreader_fraction.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(superspreader_fraction.t:$(n)) and superspreader_fraction.t:$(n)/estimate=true'/>
-			<connect srcID='relative_transmissibility.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(relative_transmissibility.t:$(n)) and relative_transmissibility.t:$(n)/estimate=true'/>
-			<connect srcID='total_r0.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(total_r0.t:$(n)) and total_r0.t:$(n)/estimate=true'/>
+			<connect srcID='superspreaderFraction.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(superspreaderFraction.t:$(n)) and superspreaderFraction.t:$(n)/estimate=true'/>
+			<connect srcID='relativeTransmissibility.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(relativeTransmissibility.t:$(n)) and relativeTransmissibility.t:$(n)/estimate=true'/>
+			<connect srcID='totalR0.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(totalR0.t:$(n)) and totalR0.t:$(n)/estimate=true'/>
 
             <connect srcID='treeLikelihood.$(n)' targetID='likelihood' inputName='distribution' if="isInitializing"/>
             <connect srcID='birthDeathMigration.t:$(n)' targetID='prior' inputName='distribution' if="Tree.t:$(n)/estimate=true"/>
@@ -383,12 +383,12 @@
             <connect srcID='GammaShapePrior.s:$(n)'           targetID='prior' inputName='distribution' if='inlikelihood(gammaShape.s:$(n)) and gammaShape.s:$(n)/estimate=true'>Prior on gamma shape for partition s:$(n)</connect>
             <connect srcID='PropInvariantPrior.s:$(n)'        targetID='prior' inputName='distribution' if='inlikelihood(proportionInvariant.s:$(n)) and proportionInvariant.s:$(n)/estimate=true'>Prior on proportion invariant for partition s:$(n)</connect>
 
-            <connect srcID='RPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(total_r0.t:$(n)) and total_r0.t:$(n)/estimate=true'/>
+            <connect srcID='RPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(totalR0.t:$(n)) and totalR0.t:$(n)/estimate=true'/>
             <connect srcID='becomeUninfectiousRatePrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(becomeUninfectiousRate.t:$(n)) and becomeUninfectiousRate.t:$(n)/estimate=true'/>
             <connect srcID='samplingProportionPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(samplingProportion.t:$(n)) and samplingProportion.t:$(n)/estimate=true'/>
             <connect srcID='rhoPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(rho.t:$(n)) and rho.t:$(n)/estimate=true'/>
-            <connect srcID='superspreader_fractionPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(superspreader_fraction.t:$(n)) and superspreader_fraction.t:$(n)/estimate=true'/>
-            <connect srcID='relative_transmissibilityPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(relative_transmissibility.t:$(n)) and relative_transmissibility.t:$(n)/estimate=true'/>
+            <connect srcID='superspreaderFractionPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(superspreaderFraction.t:$(n)) and superspreaderFraction.t:$(n)/estimate=true'/>
+            <connect srcID='relativeTransmissibilityPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(relativeTransmissibility.t:$(n)) and relativeTransmissibility.t:$(n)/estimate=true'/>
             <connect srcID='geo-frequenciesPrior.t:$(n)' targetID='prior' inputName='distribution' if='inposterior(geo-frequencies.t:$(n)) and geo-frequencies.t:$(n)/estimate=true'/>
 
             <connect srcID='proportionInvariantScaler.s:$(n)' targetID='mcmc' inputName='operator' if='inlikelihood(proportionInvariant.s:$(n)) and proportionInvariant.s:$(n)/estimate=true'>Scales proportion of invariant sites parameter of partition $(n)</connect>
@@ -404,15 +404,15 @@
             <connect srcID='WilsonBalding.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
             <connect srcID='updowntree.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
 
-			<connect srcID='R0Scaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(total_r0.t:$(n)) and total_r0.t:$(n)/estimate=true'/>
+			<connect srcID='R0Scaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(totalR0.t:$(n)) and totalR0.t:$(n)/estimate=true'/>
 			<connect srcID='becomeUninfectiousRateScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(becomeUninfectiousRate.t:$(n)) and becomeUninfectiousRate.t:$(n)/estimate=true'/>
 			<connect srcID='samplingScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(samplingProportion.t:$(n)) and samplingProportion.t:$(n)/estimate=true'/>
-			<connect srcID='superspreader_fractionScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(superspreader_fraction.t:$(n)) and superspreader_fraction.t:$(n)/estimate=true'/>
-			<connect srcID='relative_transmissibilityScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(relative_transmissibility.t:$(n)) and relative_transmissibility.t:$(n)/estimate=true'/>
+			<connect srcID='superspreaderFractionScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(superspreaderFraction.t:$(n)) and superspreaderFraction.t:$(n)/estimate=true'/>
+			<connect srcID='relativeTransmissibilityScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(relativeTransmissibility.t:$(n)) and relativeTransmissibility.t:$(n)/estimate=true'/>
 			<connect srcID='geo-frequenciesExchange.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(geo-frequencies.t:$(n)) and geo-frequencies.t:$(n)/estimate=true'/>
             <connect srcID='rhoScaler.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(rho.t:$(n)) and rho.t:$(n)/estimate=true'/>
 
-			<connect srcID='updownBD.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(total_r0.t:$(n)) and total_r0.t:$(n)/estimate=true and inposterior(becomeUninfectiousRate.t:$(n)) and becomeUninfectiousRate.t:$(n)/estimate=true'/>
+			<connect srcID='updownBD.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(totalR0.t:$(n)) and totalR0.t:$(n)/estimate=true and inposterior(becomeUninfectiousRate.t:$(n)) and becomeUninfectiousRate.t:$(n)/estimate=true'/>
 			<connect srcID='updownDS.t:$(n)' targetID='mcmc' inputName='operator' if='inposterior(samplingProportion.t:$(n)) and samplingProportion.t:$(n)/estimate=true and inposterior(becomeUninfectiousRate.t:$(n)) and becomeUninfectiousRate.t:$(n)/estimate=true'/>
 
             <connect srcID='treelog.t:$(n)' targetID='mcmc' inputName='logger' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
@@ -430,7 +430,7 @@
             <connect srcID='totalChangecounts.t:$(n)' targetID='tracelog' inputName='log' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
             <connect srcID='nodeTypeCounts.t:$(n)' targetID='tracelog' inputName='log' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
             <connect srcID='rootTypeLogger.t:$(n)' targetID='tracelog' inputName='log' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
-            <plate var='p' range='superspreader_fraction,relative_transmissibility,total_r0,R0,samplingProportion,becomeUninfectiousRate,rateMatrix,geo-frequencies,rho'>
+            <plate var='p' range='superspreaderFraction,relativeTransmissibility,totalR0,R0,samplingProportion,becomeUninfectiousRate,rateMatrix,geo-frequencies,rho'>
                     <connect srcID='$(p).t:$(n)' targetID='tracelog' inputName='log' if='inposterior(birthDeathMigration.t:$(n)) and $(p).t:$(n)/estimate=true'/>
             </plate>
 
