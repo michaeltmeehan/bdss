@@ -238,7 +238,7 @@
 
             <!-- Tree prior -->
 
-            <distribution spec="bdss.evolution.speciation.BirthDeathSuperSpreader" id="birthDeathMigration.t:$(n)" tree="@Tree.t:$(n)"
+            <distribution spec="bdss.evolution.speciation.BirthDeathSuperSpreader" id="birthDeathSuperSpreader.t:$(n)" tree="@Tree.t:$(n)"
 				  stateNumber="2" conditionOnSurvival="true">
 				  <tiptypes spec="beast.base.evolution.tree.TraitSet" traitname="type" id="typeTraitSet.t:$(n)" value="">
                       <taxa idref="TaxonSet.$(n)"/>
@@ -248,8 +248,7 @@
 				<totalR0 spec="parameter.RealParameter" id="totalR0.t:$(n)" value="0.1" dimension="1" lower="0"/>
                 <frequencies spec="parameter.RealParameter" id="geo-frequencies.t:$(n)" value=".5 .5" lower="0." upper="1." dimension="2"/>
                 <becomeUninfectiousRate spec="parameter.RealParameter" id="becomeUninfectiousRate.t:$(n)" value="0.1" lower="0" dimension="2" />
-                <samplingProportion spec="parameter.RealParameter" id="samplingProportion.t:$(n)" value="0.1 0.05 0.1 0.05" lower="0" dimension="4"  upper="1."/>
-                <samplingRateChangeTimes spec="parameter.RealParameter" id="samplingRateChangeTimes.t:$(n)" value="0.0 5.0" estimate="false"/>
+                <samplingProportion spec="parameter.RealParameter" id="samplingProportion.t:$(n)" value="0.1 0.1" lower="0" dimension="2"  upper="1."/>
                 <rho spec="parameter.RealParameter" id="rho.t:$(n)" value="0.0" dimension="2"/>
             </distribution>
 
@@ -285,14 +284,10 @@
 					<parameter name="S" value="1." estimate="false"/> 
 				</distr>	
 			</distribution>
- 
-			<distribution spec='multitypetree.distributions.ExcludablePrior' id="samplingProportionPrior.t:$(n)" x="@samplingProportion.t:$(n)">
-			<xInclude spec='parameter.BooleanParameter' id="samplingProportionXInclude.t:$(n)" value="true true true true"/>
-				<distr spec="beast.base.inference.distribution.Beta" offset="0.">
-					<parameter name="alpha" value="1." estimate="false"/> 
-					<parameter name="beta" value="1." estimate="false"/> 
-				</distr>	
-			</distribution>
+
+            <prior id='samplingProportionPrior.t:$(n)' x='@samplingProportion.t:$(n)'>
+                <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1"/>
+            </prior>
 
 			<prior id='superspreaderFractionPrior.t:$(n)' x='@superspreaderFraction.t:$(n)'>
                 <distr spec="beast.base.inference.distribution.Uniform" lower="0" upper="1"/>
@@ -375,7 +370,7 @@
 			<connect srcID='totalR0.t:$(n)' targetID='state' inputName='stateNode' if='inposterior(totalR0.t:$(n)) and totalR0.t:$(n)/estimate=true'/>
 
             <connect srcID='treeLikelihood.$(n)' targetID='likelihood' inputName='distribution' if="isInitializing"/>
-            <connect srcID='birthDeathMigration.t:$(n)' targetID='prior' inputName='distribution' if="Tree.t:$(n)/estimate=true"/>
+            <connect srcID='birthDeathSuperSpreader.t:$(n)' targetID='prior' inputName='distribution' if="Tree.t:$(n)/estimate=true"/>
             <connect srcID='ClockPrior.c:$(n)'                targetID='prior' inputName='distribution' if='inlikelihood(clockRate.c:$(n)) and clockRate.c:$(n)/estimate=true'/>
             <connect srcID='MutationRatePrior.s:$(n)'         targetID='prior' inputName='distribution' if='nooperator(FixMeanMutationRatesOperator) and inlikelihood(mutationRate.s:$(n)) and mutationRate.s:$(n)/estimate=true'/>
             <connect srcID='GammaShapePrior.s:$(n)'           targetID='prior' inputName='distribution' if='inlikelihood(gammaShape.s:$(n)) and gammaShape.s:$(n)/estimate=true'>Prior on gamma shape for partition s:$(n)</connect>
@@ -429,7 +424,7 @@
             <connect srcID='nodeTypeCounts.t:$(n)' targetID='tracelog' inputName='log' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
             <connect srcID='rootTypeLogger.t:$(n)' targetID='tracelog' inputName='log' if='inposterior(Tree.t:$(n)) and Tree.t:$(n)/estimate=true'/>
             <plate var='p' range='superspreaderFraction,relativeTransmissibility,totalR0,R0,samplingProportion,becomeUninfectiousRate,rateMatrix,geo-frequencies,rho'>
-                    <connect srcID='$(p).t:$(n)' targetID='tracelog' inputName='log' if='inposterior(birthDeathMigration.t:$(n)) and $(p).t:$(n)/estimate=true'/>
+                    <connect srcID='$(p).t:$(n)' targetID='tracelog' inputName='log' if='inposterior(birthDeathSuperSpreader.t:$(n)) and $(p).t:$(n)/estimate=true'/>
             </plate>
 
         </partitiontemplate>
