@@ -22,7 +22,22 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
     @Override
     public void initAndValidate() {
 
-        if (migrationMatrix.get() != null) {
+        // Initialize derived parameters if missing
+        if (R0.get() == null) {
+            System.out.println("Initializing R0...");
+            R0.setValue(new RealParameter(new Double[]{0.0, 0.0}), this);
+        }
+
+        if (R0AmongDemes.get() == null) {
+            System.out.println("Initializing R0AmongDemes...");
+            R0AmongDemes.setValue(new RealParameter(new Double[]{0.0, 0.0}), this);
+        }
+
+        if (migrationMatrix.get() == null) {
+            System.out.println("Initializing migrationMatrix...");
+            migrationMatrix.setValue(new RealParameter(new Double[]{0.0, 0.0}), this);
+        } else {
+            // If already initialized, zero it out safely
             for (int i = 0; i < migrationMatrix.get().getDimension(); i++) {
                 migrationMatrix.get().setValue(i, 0.0);
             }
