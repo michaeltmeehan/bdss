@@ -36,7 +36,7 @@ public class BirthDeathSuperSpreader extends BirthDeathMigrationModelUncoloured 
                     StringBuilder sb = new StringBuilder();
                     for (Node node : treeInput.get().getExternalNodes()) {
                         if (node.getID() != null) {
-                            sb.append(node.getID()).append("=0,"); // assign default type 0
+                            sb.append(node.getID()).append("=NOT_SET,"); // assign default type 0
                         } else {
                             System.err.println("Warning: Node without ID detected!");
                         }
